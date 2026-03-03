@@ -1,0 +1,20 @@
+Différences Python vs C++ pour cette classe
+Syntaxe
+Python : dynamique, pas de types obligatoires
+
+C++ : typé statiquement, nécessite headers, pointeurs, compilation
+
+Gestion mémoire
+Python : garbage collector
+
+C++ : pointeurs, destructeurs, gestion manuelle
+
+Paradigme
+Python : simple, flexible, orienté objet mais permissif
+
+C++ : bas niveau, contrôle fin, surcharge, constructeurs, destructeurs
+
+Instanciation
+Python : user = User("alice", "admin", ws)
+
+C++ : User user("alice", "admin", &ws);

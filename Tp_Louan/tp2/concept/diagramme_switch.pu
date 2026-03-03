@@ -1,0 +1,17 @@
+@startuml
+
+class Workstation {
+  - hostname : String
+  - ipAddress : String
+}
+
+class User {
+  - username : String
+  - role : String
+  + login()
+  + logout()
+}
+
+User --> Workstation : utilise >
+
+@enduml
