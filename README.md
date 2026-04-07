@@ -1,1 +1,4 @@
-# Tp du jour 1  et éléments du jour 2 
+-> Technologie APP
+- Tp du premier jour
+- Elements du 2 éme jours
+- 07/04 : Code Socket.io chat 
