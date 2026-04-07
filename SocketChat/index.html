@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Socket.IO chat</title>
+
+    <style>
+      /* --- STYLE GLOBAL --- */
+      body {
+        margin: 0;
+        padding-bottom: 3rem;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: #0f0f17; /* Fond sombre */
+        color: #e4e4e9;      /* Texte clair */
+      }
+
+      /* --- FORMULAIRE D'ENVOI --- */
+      #form {
+        background: rgba(30, 30, 45, 0.7);
+        padding: 0.25rem;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        height: 3rem;
+        box-sizing: border-box;
+        backdrop-filter: blur(12px);
+        border-top: 1px solid rgba(120, 120, 180, 0.3);
+      }
+
+      #input {
+        border: none;
+        padding: 0 1rem;
+        flex-grow: 1;
+        border-radius: 2rem;
+        margin: 0.25rem;
+        background: #1c1c2b;
+        color: #fff;
+        border: 1px solid #3a3a55;
+      }
+
+      #input:focus {
+        outline: none;
+        border-color: #7a5cff;
+        box-shadow: 0 0 6px #7a5cff;
+      }
+
+      #form > button {
+        background: linear-gradient(135deg, #7a5cff, #5a3bff);
+        border: none;
+        padding: 0 1rem;
+        margin: 0.25rem;
+        border-radius: 10px;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+
+      #form > button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 10px #7a5cff;
+      }
+
+      /* --- LISTE DES MESSAGES --- */
+      #messages {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      #messages > li {
+        padding: 0.7rem 1rem;
+        margin-bottom: 2px;
+        background: #1a1a27;
+        border-left: 3px solid #7a5cff;
+      }
+
+      #messages > li:nth-child(odd) {
+        background: #14141f;
+        border-left-color: #5a3bff;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Liste des messages -->
+    <ul id="messages"></ul>
+
+    <!-- Formulaire d'envoi -->
+    <form id="form" action="">
+      <input id="input" autocomplete="off" />
+      <button>Send</button>
+    </form>
+
+    <!-- Client Socket.IO -->
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+      let counter = 0; // Sert à générer un identifiant unique par message
+
+      // Connexion au serveur Socket.IO
+      const socket = io({
+        ackTimeout: 10000, // Temps max pour attendre un ACK
+        retries: 3,        // Nombre de tentatives
+        auth: {
+          serverOffset: 0  // Dernier message reçu
+        }
+      });
+
+      const form = document.getElementById('form');
+      const input = document.getElementById('input');
+      const messages = document.getElementById('messages');
+
+      // Envoi d'un message
+      form.addEventListener('submit', (e) => {
+        e.preventDefault(); // Empêche le rechargement de la page
+
+        if (input.value) {
+          // Identifiant unique du message → anti-doublon côté serveur
+          const clientOffset = `${socket.id}-${counter++}`;
+
+          socket.emit('chat message', input.value, clientOffset);
+          input.value = ''; // Reset du champ
+        }
+      });
+
+      // Réception d'un message
+      socket.on('chat message', (msg, serverOffset) => {
+        const item = document.createElement('li');
+        item.textContent = msg;
+        messages.appendChild(item);
+
+        // Scroll automatique vers le bas
+        window.scrollTo(0, document.body.scrollHeight);
+
+        // Mise à jour du dernier message reçu
+        socket.auth.serverOffset = serverOffset;
+      });
+    </script>
+  </body>
+</html>
