@@ -1,0 +1,15 @@
+Client                     Serveur
+  |                           |
+  | ---- ClientHello -------> |
+  |                           |
+  | <----- ServerHello ------ |
+  | <----- Certificate ------ |
+  |                           |
+  | ---- ClientKeyExchange -> |
+  | ---- ChangeCipherSpec --->|
+  | ---- Finished ----------->|
+  |                           |
+  | <--- ChangeCipherSpec ----|
+  | <------- Finished --------|
+  |                           |
+Canal TLS sécurisé établi
