@@ -1,0 +1,9 @@
+Client            Serveur
+  |                  |
+  | ---- SYN ------> |
+  |                  |
+  | <--- SYN/ACK --- |
+  |                  |
+  | ---- ACK ------> |
+  |                  |
+Connexion établie
