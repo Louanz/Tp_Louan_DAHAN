@@ -1,0 +1,44 @@
+! ============================================================
+!  PC1 — Configuration IP
+!  Dans Packet Tracer : cliquer sur PC1 > Desktop > IP Configuration
+! ============================================================
+
+IP Address   : 192.168.1.100
+Subnet Mask  : 255.255.255.0
+Gateway      : 192.168.1.1
+DNS Server   : (laisser vide)
+
+! --- Test depuis PC1 : Desktop > Command Prompt ---
+!
+!  ping 192.168.1.1    -> Routeur (doit répondre)
+!  ping 192.168.1.10   -> Serveur1
+!  ping 192.168.1.11   -> Serveur2
+!  ping 192.168.1.101  -> PC2
+!
+! --- Accès Web : Desktop > Web Browser ---
+!
+!  http://192.168.1.10   -> "Serveur distribué 1 actif"
+!  http://192.168.1.11   -> "Serveur distribué 2 actif"
+
+
+! ============================================================
+!  PC2 — Configuration IP
+!  Dans Packet Tracer : cliquer sur PC2 > Desktop > IP Configuration
+! ============================================================
+
+IP Address   : 192.168.1.101
+Subnet Mask  : 255.255.255.0
+Gateway      : 192.168.1.1
+DNS Server   : (laisser vide)
+
+! --- Test depuis PC2 : Desktop > Command Prompt ---
+!
+!  ping 192.168.1.1    -> Routeur
+!  ping 192.168.1.10   -> Serveur1
+!  ping 192.168.1.11   -> Serveur2
+!  ping 192.168.1.100  -> PC1
+!
+! --- Accès Web : Desktop > Web Browser ---
+!
+!  http://192.168.1.10   -> "Serveur distribué 1 actif"
+!  http://192.168.1.11   -> "Serveur distribué 2 actif"
