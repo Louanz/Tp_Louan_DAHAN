@@ -1,0 +1,77 @@
+! ============================================================
+!  SWITCH 2 — Cisco 2960 — RSX102 TP Système Distribué
+!  Coller dans : CLI de Switch2 > onglet CLI
+! ============================================================
+
+enable
+configure terminal
+
+! --- Nom de l'équipement ---
+hostname Switch2-TP
+
+! --- Désactiver la recherche DNS ---
+no ip domain-lookup
+
+! --- VLAN 1 : adresse de gestion du switch ---
+interface Vlan1
+ ip address 192.168.1.202 255.255.255.0
+ no shutdown
+
+! --- Passerelle par défaut du switch ---
+ip default-gateway 192.168.1.1
+
+! --- Port vers PC2 ---
+interface FastEthernet0/1
+ description PC2
+ switchport mode access
+ switchport access vlan 1
+ spanning-tree portfast
+ no shutdown
+
+! --- Port vers Serveur2 ---
+interface FastEthernet0/2
+ description Serveur2
+ switchport mode access
+ switchport access vlan 1
+ spanning-tree portfast
+ no shutdown
+
+! --- Port montant vers Routeur ---
+interface GigabitEthernet0/1
+ description Uplink-Routeur
+ switchport mode access
+ no shutdown
+
+! --- Port lien inter-switchs (redondance) ---
+interface GigabitEthernet0/2
+ description Lien-Switch1-Redondance
+ switchport mode access
+ no shutdown
+
+! --- Activer Spanning Tree ---
+spanning-tree mode pvst
+
+! --- Bannière ---
+banner motd #
+=== Switch2 TP RSX102 - Systeme Distribue ===
+#
+
+line console 0
+ logging synchronous
+
+end
+
+write memory
+
+! ============================================================
+!  VÉRIFICATION
+! ============================================================
+!
+!  show interfaces status
+!     -> Fa0/1  (PC2)     connected
+!     -> Fa0/2  (Srv2)    connected
+!     -> Gi0/1  (Routeur) connected
+!     -> Gi0/2  (Switch1) connected
+!
+!  show spanning-tree
+! ============================================================

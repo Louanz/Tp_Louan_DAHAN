@@ -1,0 +1,53 @@
+ ============================================================
+  ROUTEUR ISR 4331 — RSX102 TP Système Distribué
+  Coller dans : CLI du Routeur > onglet CLI
+
+
+enable
+configure terminal
+
+! --- Nom de l'équipement ---
+hostname Routeur-TP
+
+! --- Désactiver la recherche DNS (évite les longs timeouts) ---
+no ip domain-lookup
+
+! --- Interface vers Switch1 ---
+interface GigabitEthernet0/0/0
+ description Lien vers Switch1
+ ip address 192.168.1.1 255.255.255.0
+ no shutdown
+
+! --- Interface vers Switch2 ---
+interface GigabitEthernet0/0/1
+ description Lien vers Switch2
+ ip address 192.168.1.1 255.255.255.0
+ no shutdown
+
+! --- Message de bannière ---
+banner motd #
+=== Routeur TP RSX102 - Systeme Distribue ===
+#
+
+! --- Sécurisation basique ---
+line console 0
+ logging synchronous
+
+end
+
+! --- Sauvegarder la configuration ---
+write memory
+
+! ============================================================
+!  VÉRIFICATION : taper ces commandes pour contrôler
+! ============================================================
+!
+!  show ip interface brief
+!     -> GigabitEthernet0/0/0  192.168.1.1  up/up
+!     -> GigabitEthernet0/0/1  192.168.1.1  up/up
+!
+!  ping 192.168.1.10    -> doit répondre (Serveur1)
+!  ping 192.168.1.11    -> doit répondre (Serveur2)
+!  ping 192.168.1.100   -> doit répondre (PC1)
+!  ping 192.168.1.101   -> doit répondre (PC2)
+! ============================================================

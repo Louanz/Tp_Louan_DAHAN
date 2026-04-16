@@ -1,0 +1,31 @@
+! ============================================================
+!  SERVEUR 1 — Configuration
+!  Dans Packet Tracer : cliquer sur Serveur1
+! ============================================================
+
+! --- Onglet Desktop > IP Configuration ---
+IP Address   : 192.168.1.10
+Subnet Mask  : 255.255.255.0
+Gateway      : 192.168.1.1
+
+
+! ============================================================
+!  SERVEUR 2 — Configuration
+!  Dans Packet Tracer : cliquer sur Serveur2
+! ============================================================
+
+! --- Onglet Desktop > IP Configuration ---
+IP Address   : 192.168.1.11
+Subnet Mask  : 255.255.255.0
+Gateway      : 192.168.1.1
+
+
+
+! ============================================================
+!  BONUS — SERVEUR 3 (si ajout du troisième serveur)
+! ============================================================
+
+IP Address   : 192.168.1.12
+Subnet Mask  : 255.255.255.0
+Gateway      : 192.168.1.1
+

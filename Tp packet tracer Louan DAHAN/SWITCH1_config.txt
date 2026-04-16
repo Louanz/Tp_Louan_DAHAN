@@ -1,0 +1,78 @@
+! ============================================================
+!  SWITCH 1 — Cisco 2960 — RSX102 TP Système Distribué
+!  Coller dans : CLI de Switch1 > onglet CLI
+! ============================================================
+
+enable
+configure terminal
+
+! --- Nom de l'équipement ---
+hostname Switch1-TP
+
+! --- Désactiver la recherche DNS ---
+no ip domain-lookup
+
+! --- VLAN 1 : adresse de gestion du switch ---
+interface Vlan1
+ ip address 192.168.1.201 255.255.255.0
+ no shutdown
+
+! --- Passerelle par défaut du switch ---
+ip default-gateway 192.168.1.1
+
+! --- Port vers PC1 ---
+interface FastEthernet0/1
+ description PC1
+ switchport mode access
+ switchport access vlan 1
+ spanning-tree portfast
+ no shutdown
+
+! --- Port vers Serveur1 ---
+interface FastEthernet0/2
+ description Serveur1
+ switchport mode access
+ switchport access vlan 1
+ spanning-tree portfast
+ no shutdown
+
+! --- Port montant vers Routeur ---
+interface GigabitEthernet0/1
+ description Uplink-Routeur
+ switchport mode access
+ no shutdown
+
+! --- Port lien inter-switchs (redondance) ---
+interface GigabitEthernet0/2
+ description Lien-Switch2-Redondance
+ switchport mode access
+ no shutdown
+
+! --- Activer Spanning Tree (évite les boucles) ---
+spanning-tree mode pvst
+
+! --- Bannière ---
+banner motd #
+=== Switch1 TP RSX102 - Systeme Distribue ===
+#
+
+line console 0
+ logging synchronous
+
+end
+
+write memory
+
+! ============================================================
+!  VÉRIFICATION
+! ============================================================
+!
+!  show interfaces status
+!     -> Fa0/1  (PC1)     connected
+!     -> Fa0/2  (Srv1)    connected
+!     -> Gi0/1  (Routeur) connected
+!     -> Gi0/2  (Switch2) connected
+!
+!  show spanning-tree
+!     -> vérifie quel port est Root / Designated / Blocking
+! ============================================================
